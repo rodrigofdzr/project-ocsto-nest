@@ -6,6 +6,9 @@ import { EmployeesModule } from './employees/employees.module.js';
 import { ProductsModule } from './products/products.module.js';
 import { ConfigModule } from '@nestjs/config';
 import { ProvidersModule } from './providers/providers.module.js';
+import { ManagersModule } from './managers/managers.module.js';
+import { LocationModule } from './location/location.module.js';
+import { RegionsModule } from './regions/regions.module.js';
 
 @Module({
   imports: [
@@ -24,6 +27,9 @@ import { ProvidersModule } from './providers/providers.module.js';
       synchronize: true,
     }),
     ProvidersModule,
+    ManagersModule,
+    LocationModule,
+    RegionsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
