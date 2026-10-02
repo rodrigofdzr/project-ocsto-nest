@@ -3,6 +3,7 @@ import { CreateRegionDto } from './dto/create-region.dto.js';
 import { UpdateRegionDto } from './dto/update-region.dto.js';
 import {InjectRepository} from "@nestjs/typeorm";
 import {Repository} from "typeorm";
+import { Region } from './entities/region.entity.js';
 
 @Injectable()
 export class RegionsService {
@@ -18,16 +19,16 @@ export class RegionsService {
     return this.regionRepository.find();
   }
 
-  findOne(id: number) {
-    const region = this.regionRepository.findOneBy({
+  async findOne(id: number) {
+    const region = await this.regionRepository.findOneBy({
         regionId: id,
     })
       if (!region) throw new NotFoundException("No region found.");
     return region;
   }
 
-  update(id: number, updateRegionDto: UpdateRegionDto) {
-        const regionToUpdate = this.regionRepository.preload({
+  async update(id: number, updateRegionDto: UpdateRegionDto) {
+        const regionToUpdate = await this.regionRepository.preload({
             regionId: id,
             ...updateRegionDto,
         });

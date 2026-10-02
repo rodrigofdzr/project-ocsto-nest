@@ -1,13 +1,17 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
 import { CreateLocationDto } from './dto/create-location.dto.js';
 import { UpdateLocationDto } from './dto/update-location.dto.js';
-import {Repository} from "typeorm";
+import { Location } from './entities/location.entity.js';
 
 @Injectable()
 export class LocationService {
-    constructor(
-        private locationRepository: Repository<Location>,
-    ) {}
+  constructor(
+    @InjectRepository(Location)
+    private locationRepository: Repository<Location>,
+  ) {}
+
   create(createLocationDto: CreateLocationDto) {
     return this.locationRepository.save(createLocationDto);
   }
@@ -16,29 +20,26 @@ export class LocationService {
     return this.locationRepository.find();
   }
 
-  findOne(id: number) {
-    const location = this.locationRepository.findOneBy({
-        locationId: id,
-    });
+  async findOne(id: number) {
+    const location = await this.locationRepository.findOneBy({ locationId: id });
     if (!location) {
-        throw new Error(`Location with ID ${id} not found`);
+      throw new NotFoundException(`Location with ID ${id} not found`);
     }
+    return location;
   }
 
-  update(id: number, updateLocationDto: UpdateLocationDto) {
-    const location = this.locationRepository.preload({
-        locationId: id,
-        ...updateLocationDto,
+  async update(id: number, updateLocationDto: UpdateLocationDto) {
+    const location = await this.locationRepository.preload({
+      locationId: id,
+      ...updateLocationDto,
     });
     if (!location) {
-        throw new Error(`Location with ID ${id} not found`);
+      throw new NotFoundException(`Location with ID ${id} not found`);
     }
     return this.locationRepository.save(location);
   }
 
   remove(id: number) {
-    return this.locationRepository.delete(
-        { locationId: id }
-    );
+    return this.locationRepository.delete({ locationId: id });
   }
 }

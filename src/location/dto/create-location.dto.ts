@@ -1,6 +1,5 @@
 import {ArrayNotEmpty, IsArray, IsString, MaxLength} from "class-validator";
-
-imports Location from '../entities/location.entity.js';
+import { Location } from '../entities/location.entity.js';
 
 export class CreateLocationDto extends Location {
     @IsString()

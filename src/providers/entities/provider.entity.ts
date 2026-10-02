@@ -19,7 +19,7 @@ export class Provider {
   })
   providerPhone: string;
 
-  @OneToMany(() => Product, (product) => product.provider)
+  @OneToMany(() => Product, (photo) => photo.provider)
   products: Product[];
 
 }

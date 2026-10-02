@@ -1,4 +1,6 @@
 import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import { ManyToOne, JoinColumn, type Relation } from 'typeorm';
+import { Location } from '../../location/entities/location.entity.js';
 
 @Entity()
 export class Employee {
@@ -22,4 +24,8 @@ export class Employee {
         nullable: true
   })
   photoUrl: string;
+
+  @ManyToOne(()  => Location, (location) => location.employees)
+    @JoinColumn({ name: 'locationId' })
+  location: Relation<Location>;
 }

@@ -1,4 +1,4 @@
-import {Manager} from "src/managers/entities/manager.entity.js";
+import { Manager } from '../entities/manager.entity.js';
 import {IsEmail, IsNumber, IsString, MaxLength} from "class-validator";
 
 export class CreateManagerDto extends Manager {
