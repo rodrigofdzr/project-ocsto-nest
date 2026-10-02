@@ -9,6 +9,7 @@ import { ProvidersModule } from './providers/providers.module.js';
 import { ManagersModule } from './managers/managers.module.js';
 import { LocationModule } from './location/location.module.js';
 import { RegionsModule } from './regions/regions.module.js';
+import { AuthModule } from './auth/auth.module.js';
 
 @Module({
   imports: [
@@ -30,6 +31,7 @@ import { RegionsModule } from './regions/regions.module.js';
     ManagersModule,
     LocationModule,
     RegionsModule,
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [AppService],
