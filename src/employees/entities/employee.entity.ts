@@ -1,6 +1,7 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, OneToOne} from 'typeorm';
 import { ManyToOne, JoinColumn, type Relation } from 'typeorm';
 import { Location } from '../../location/entities/location.entity.js';
+import { User } from '../../auth/entities/user.entity.js';
 
 @Entity()
 export class Employee {
@@ -28,4 +29,8 @@ export class Employee {
   @ManyToOne(()  => Location, (location) => location.employees)
     @JoinColumn({ name: 'locationId' })
   location: Relation<Location>;
+
+  @OneToOne(() => User)
+    @JoinColumn({ name: 'userId' })
+    user: Relation<User>;
 }
