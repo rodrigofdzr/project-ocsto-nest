@@ -16,7 +16,9 @@ import { NotFoundException } from '@nestjs/common';
 import { AuthGuard } from '../auth/guards/auth.guard.js';
 import {User} from "../auth/entities/user.entity.js";
 import {UserData} from "../auth/decorators/user.decorator.js";
-
+import {Roles} from "../auth/decorators/roles.decorator.js";
+import {RolesGuard} from "../auth/guards/roles.guard.js";
+@UseGuards(AuthGuard)
 @Controller('providers')
 export class ProvidersController {
   constructor(private readonly providersService: ProvidersService) {}
@@ -26,7 +28,9 @@ export class ProvidersController {
     return this.providersService.create(createProviderDto);
   }
 
-  @UseGuards(AuthGuard)
+
+  @Roles(['Admin'])
+  @UseGuards(RolesGuard)
   @Get()
   findAll(@UserData() user: User) {
       if (user.userRoles.includes('Employee')) {
