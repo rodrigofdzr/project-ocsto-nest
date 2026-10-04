@@ -1,24 +1,21 @@
 import {
-  Controller,
-  Get,
-  Post,
   Body,
-  Patch,
-  Param,
+  Controller,
   Delete,
-  UseGuards,
+  Get,
+  NotFoundException,
+  Param,
+  Patch,
+  Post,
   UnauthorizedException,
 } from '@nestjs/common';
 import { ProvidersService } from './providers.service.js';
 import { CreateProviderDto } from './dto/create-provider.dto.js';
 import { UpdateProviderDto } from './dto/update-provider.dto.js';
-import { NotFoundException } from '@nestjs/common';
-import { AuthGuard } from '../auth/guards/auth.guard.js';
-import {User} from "../auth/entities/user.entity.js";
-import {UserData} from "../auth/decorators/user.decorator.js";
-import {Roles} from "../auth/decorators/roles.decorator.js";
-import {RolesGuard} from "../auth/guards/roles.guard.js";
-@UseGuards(AuthGuard)
+import { User } from '../auth/entities/user.entity.js';
+import { UserData } from '../auth/decorators/user.decorator.js';
+import { Auth } from '../auth/decorators/auth.decorator.js';
+
 @Controller('providers')
 export class ProvidersController {
   constructor(private readonly providersService: ProvidersService) {}
@@ -28,33 +25,36 @@ export class ProvidersController {
     return this.providersService.create(createProviderDto);
   }
 
-
-  @Roles(['Admin'])
-  @UseGuards(RolesGuard)
+  @Auth('Employee')
   @Get()
   findAll(@UserData() user: User) {
-      if (user.userRoles.includes('Employee')) {
-          throw new UnauthorizedException('You do not have permission to access this resource');
-      }
+    if (user.userRoles.includes('Employee')) {
+      throw new UnauthorizedException(
+        'You do not have permission to access this resource',
+      );
+    }
     return this.providersService.findAll();
   }
 
   @Get(':name')
-    findByName(@Param('name') name: string) {
+  findByName(@Param('name') name: string) {
     return this.providersService.findOneByName(name);
   }
 
   @Get(':id')
   findOne(@Param('id') id: string) {
     const provider = this.providersService.findOne(id);
-    if(!provider) {
-        throw new NotFoundException(`Provider with id ${id} not found`);
+    if (!provider) {
+      throw new NotFoundException(`Provider with id ${id} not found`);
     }
     return provider;
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateProviderDto: UpdateProviderDto) {
+  update(
+    @Param('id') id: string,
+    @Body() updateProviderDto: UpdateProviderDto,
+  ) {
     return this.providersService.update(id, updateProviderDto);
   }
 
