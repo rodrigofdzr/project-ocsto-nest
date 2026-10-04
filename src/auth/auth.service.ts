@@ -10,6 +10,7 @@ import { CreateUserDto } from "./dto/create-user.dto.js";
 import bcrypt from "bcrypt";
 import {JwtService} from "@nestjs/jwt";
 import { LoginUserDto } from "./dto/login-user.dto.js";
+import {UpdateUserDto} from "./dto/update-user.dto.js";
 
 @Injectable()
 export class AuthService {
@@ -43,6 +44,16 @@ export class AuthService {
             throw new UnauthorizedException('Invalid credentials');
         }
         return token;
+    }
+
+    async updateUser(userEmail: string, updateUserDto: UpdateUserDto){
+
+        const newUserData = await this.userRepository.preload({
+            userEmail,
+            ...updateUserDto
+        })
+        this.userRepository.save(newUserData);
+        return newUserData;
     }
 
 }
