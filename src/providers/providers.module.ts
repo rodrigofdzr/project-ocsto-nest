@@ -3,9 +3,17 @@ import { ProvidersService } from './providers.service.js';
 import { ProvidersController } from './providers.controller.js';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Provider } from './entities/provider.entity.js';
+import {JwtModule} from "@nestjs/jwt";
+import {JWT_EXPIRATION, JWT_KEY} from "../auth/constants/jwt.constants.js";
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Provider])],
+  imports: [
+    TypeOrmModule.forFeature([Provider]),
+    JwtModule.register({
+      secret: JWT_KEY,
+      signOptions: { expiresIn: JWT_EXPIRATION },
+    }),
+  ],
   controllers: [ProvidersController],
   providers: [ProvidersService],
 })
