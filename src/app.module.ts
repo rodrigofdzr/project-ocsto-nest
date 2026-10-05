@@ -1,7 +1,5 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { AppController } from './app.controller.js';
-import { AppService } from './app.service.js';
 import { EmployeesModule } from './employees/employees.module.js';
 import { ProductsModule } from './products/products.module.js';
 import { ConfigModule } from '@nestjs/config';
@@ -33,7 +31,5 @@ import { AuthModule } from './auth/auth.module.js';
     RegionsModule,
     AuthModule,
   ],
-  controllers: [AppController],
-  providers: [AppService],
 })
 export class AppModule {}

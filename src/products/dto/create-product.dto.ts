@@ -5,6 +5,7 @@ import {
   IsString,
   IsUUID,
   MaxLength,
+  IsObject,
 } from 'class-validator';
 import { Provider } from '../../providers/entities/provider.entity.js';
 
@@ -20,7 +21,6 @@ export class CreateProductDto {
   price: number;
   @IsInt()
   countSeal: number;
-  @IsString()
-  @IsUUID('4')
+  @IsObject()
   provider: Provider;
 }

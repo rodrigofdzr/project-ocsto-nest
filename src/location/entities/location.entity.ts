@@ -15,7 +15,9 @@ export class Location {
     @Column('simple-array')
     locationLatLong: number[];
 
-    @OneToOne(() => Manager)
+    @OneToOne(() => Manager,{
+        eager: true,
+    })
     @JoinColumn({
         name: 'managerId',
     })

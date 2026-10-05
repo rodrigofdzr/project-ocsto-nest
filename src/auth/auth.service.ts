@@ -48,12 +48,18 @@ export class AuthService {
 
     async updateUser(userEmail: string, updateUserDto: UpdateUserDto){
 
+        const user = await this.userRepository.findOneBy({ userEmail });
+        if (!user) {
+            throw new NotFoundException('User not found');
+        }
         const newUserData = await this.userRepository.preload({
-            userEmail,
+            userId: user.userId,
             ...updateUserDto
-        })
-        this.userRepository.save(newUserData);
-        return newUserData;
+        });
+        if (!newUserData) {
+            throw new NotFoundException('User not found');
+        }
+        return this.userRepository.save(newUserData);
     }
 
 }

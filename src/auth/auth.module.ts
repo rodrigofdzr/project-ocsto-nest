@@ -11,6 +11,7 @@ import {JWT_EXPIRATION} from "../auth/constants/jwt.constants.js";
     imports: [
         TypeOrmModule.forFeature([User]),
         JwtModule.register({
+            global: true,
             secret: JWT_KEY,
             signOptions: { expiresIn: JWT_EXPIRATION },
         }),
