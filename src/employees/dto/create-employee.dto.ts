@@ -30,7 +30,9 @@ export class CreateEmployeeDto extends Employee {
   @IsEmail()
   employeeEmail: string;
 
-    @ApiProperty()
+    @ApiPropertyOptional({
+        default: { locationId: 1 }
+    })
   @IsOptional()
   @IsObject()
   location: Location;

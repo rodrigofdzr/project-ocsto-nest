@@ -1,8 +1,9 @@
 import {applyDecorators} from "@nestjs/common";
-import {ApiResponse} from "@nestjs/swagger";
+import {ApiBearerAuth, ApiResponse} from "@nestjs/swagger";
 
 export const ApiAuth = () => {
     return applyDecorators(
+        ApiBearerAuth(),
         ApiResponse({
             status: 401,
             description: "Missing or invalid authentication token",
