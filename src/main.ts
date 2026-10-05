@@ -9,6 +9,7 @@ async function bootstrap() {
       .setTitle('OCSO Project')
         .setDescription('The OCSO API description')
         .setVersion('1.0')
+      .addBearerAuth()
         .addTag('OCSO')
         .build();
     const document = SwaggerModule.createDocument(app, config);
