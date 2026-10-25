@@ -15,7 +15,7 @@ import { ROLES } from '../auth/constants/roles.constants.js';
 import { ApiAuth } from '../auth/decorators/api.decorator.js';
 import {ApiTags} from "@nestjs/swagger";
 
-@ApiAuth()
+//@ApiAuth()
 @ApiTags('Locations')
 @Controller('location')
 export class LocationController {
@@ -27,7 +27,7 @@ export class LocationController {
     return this.locationService.create(createLocationDto);
   }
 
-  @Auth(ROLES.EMPLOYEE, ROLES.MANAGER)
+  //@Auth(ROLES.EMPLOYEE, ROLES.MANAGER)
   @Get()
   findAll() {
     return this.locationService.findAll();
