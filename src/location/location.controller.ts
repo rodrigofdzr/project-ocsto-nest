@@ -36,7 +36,13 @@ export class LocationController {
   @Auth(ROLES.EMPLOYEE, ROLES.MANAGER)
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.locationService.findOne(+id);
+    const location = this.locationService.findOneBy({
+        locationId: id,
+    });
+    if (!location) {
+        throw new Error(`Location with id ${id} not found`);
+    }
+    return location;
   }
 
     @Auth()
